@@ -1,6 +1,17 @@
 # incognitorevealation
-incognitorevealation api 
+ 
+## TODOS:
+By priority...
 
-Deploy with Serverless Framework.
+[x] - get all reviews for a specific company
+[ ] - get random reviews for the landing page
+[ ] - create review
+[ ] - edit review
 
-`sls deploy`
+
+## Deploy with Serverless Framework.
+
+`sls deploy
+
+
+`
