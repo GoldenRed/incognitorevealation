@@ -10,7 +10,9 @@ seniorities_matrix = [['Intern', 1], ['Junior', 3], ['Mid-level', 6], ['Senior',
 seniorities = [row[0] for row in seniorities_matrix]
 seniorities_weights = [row[1] for row in seniorities_matrix]  
 
-fnames = ['company', 'reviewId', 'reviewEditCode', 'jobDescription', 'reviewBody', 'reaction1', 'reaction2', 'reaction3', 'reaction4']
+countryCodes = ['se', 'uk', 'us', 'de', 'da', 'no', 'fi', 'fr', 'it', 'ca', 'es', 'ru', 'cn', 'jp', 'in']
+
+fnames = ['company', 'reviewId', 'reviewEditCode', 'jobDescription', 'reviewBody', 'reaction1', 'reaction2', 'reaction3', 'reaction4', 'country']
 
 def getFakeReview():
   return {
@@ -22,7 +24,8 @@ def getFakeReview():
           fnames[5] : max(int(random.gauss(1, 7)), 0),
           fnames[6] : max(int(random.gauss(1, 3)), 0),
           fnames[7] : max(int(random.gauss(1, 2)), 0),
-          fnames[8] : max(int(random.gauss(1, 1)), 0)
+          fnames[8] : max(int(random.gauss(1, 1)), 0),
+          fnames[9] : random.choices(countryCodes)[0],
           }
 
 

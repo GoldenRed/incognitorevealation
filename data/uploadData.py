@@ -32,4 +32,5 @@ with open('data.csv', 'r') as f:
           headers[6] : row[6],
           headers[7] : row[7],
           headers[8] : row[8],
+          headers[9] : row[9],
         })
