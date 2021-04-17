@@ -5,12 +5,14 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
+  logs:
+    httpApi: true
 
 # you can overwrite defaults here
 #  stage: dev
   region: eu-north-1
   environment:
-    DDBTableName: incognitorevalationDynamoDBTable
+    DDBTableName: incognitorevalation
 
 # you can add statements to the Lambda function's IAM Role here
   iamRoleStatements:
