@@ -4,6 +4,8 @@
 By priority...
 
 [x] - get all reviews for a specific company
+- [ ] - fix reviewCode being leaked
+- [ ] - fix capitalization
 [ ] - get random reviews for the landing page
 [ ] - create review
 [ ] - edit review
