@@ -1,0 +1,98 @@
+service: incognitorevealation
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+
+# you can overwrite defaults here
+#  stage: dev
+  region: eu-north-1
+  environment:
+    DDBTableName: incognitorevalationDynamoDBTable
+
+# you can add statements to the Lambda function's IAM Role here
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:Query"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+      Resource: "*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+#package:
+#  patterns:
+#    - '!exclude-me.py'
+#    - '!exclude-me-dir/**'
+#    - include-me.py
+#    - include-me-dir/**
+
+functions:
+  get_company:
+    handler: functions/get_company.handler # Search for a company and get all its reviews
+    events:
+      - httpApi:
+          path: /company
+          method: get
+  get_random:
+    handler: functions/get_random.handler # Get a random review from any company
+    events:
+      - httpApi:
+          path: /random
+          method: get
+  create_review:
+    handler: functions/create_review.handler # Post your own review, returns the company as confirmation, review-id, and a review-"password"
+    events:
+      - httpApi:
+          path: /review
+          method: post
+  update_reaction:
+    handler: functions/update_reaction.handler
+    events:
+      - httpApi:
+          path: /reaction # Add a "reaction" on a review (1 out of 4), does atomic increase on the specified reaction 
+          method: post
+  update_review:
+    handler: functions/update_review.handler
+    events:
+      - httpApi:
+          path: /review # Edit your review, requires the company, the review-id and the review-password
+          method: put
+
+# you can add CloudFormation resource templates here
+resources:
+  Resources:
+    incognitorevalationDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: "company"
+            AttributeType: "S"
+          -
+            AttributeName: "reviewId"
+            AttributeType: "S"
+        KeySchema:
+          -
+            AttributeName: "company"
+            KeyType: "HASH"
+          -
+            AttributeName: "reviewId"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:provider.environment.DDBTableName}
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"
